@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block contenido %}
+
+<div class="d-flex">
+
+    <div class="bg-dark text-white p-3"
+         style="width:250px;height:100vh;">
+
+        <h3>Taxi Manager</h3>
+
+        <hr>
+
+        <ul class="nav flex-column">
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">
+                    🏠 Dashboard
+                </a>
+            </li>
+
+            <li class="nav-item">
+               <a class="nav-link text-white" href="{{ url_for('vehiculos.listar') }}">
+                   🚕 Vehículos
+               </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">
+                    👤 Conductores
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">
+                    📄 Documentos
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">
+                    📊 Reportes
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div class="container mt-4">
+
+        <h2>Bienvenido</h2>
+
+        <p>Este será el panel principal.</p>
+
+    </div>
+
+</div>
+
+{% endblock %}
