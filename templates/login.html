@@ -1,43 +1,48 @@
 {% extends "base.html" %}
 
-{% block titulo %}
-Iniciar Sesión
-{% endblock %}
+{% block titulo %}Iniciar sesión — Rm Taxis{% endblock %}
+{% block body_class %}login-body{% endblock %}
 
 {% block contenido %}
+<header class="login-topbar">
+    <img
+        src="{{ url_for('static', filename='img/logo.svg') }}"
+        alt="Rm Taxis"
+        class="brand-logo"
+    >
+    <span class="brand-text">Rm Taxis</span>
+</header>
 
-<div class="login-box">
+<div class="taxi-checker taxi-checker-yellow" aria-hidden="true"></div>
 
-    <h2 class="text-center mb-4">Taxi Manager</h2>
+<div class="login-stage">
+    <div class="login-box">
+        <div class="taxi-checker" aria-hidden="true"></div>
+        <div class="login-box-inner">
+            <h1>Iniciar sesión</h1>
+            <p class="subtitle">Ingresa a tu panel de gestión</p>
 
-    <form method="POST">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-        <div class="mb-3">
-            <label class="form-label">Correo</label>
-            <input
-                type="email"
-                name="correo"
-                class="form-control"
-                placeholder="Ingrese su correo"
-                required>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Correo</label>
+                    <input type="email" name="correo" class="form-control" placeholder="admin@taxi.com" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-taxi w-100">Ingresar</button>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Contraseña</label>
-            <input
-                type="password"
-                name="password"
-                class="form-control"
-                placeholder="Ingrese su contraseña"
-                required>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">
-            Ingresar
-        </button>
-
-    </form>
-
+        <div class="taxi-checker taxi-checker-yellow" aria-hidden="true"></div>
+    </div>
 </div>
-
 {% endblock %}

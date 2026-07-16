@@ -1,0 +1,70 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}{% if documento %}Editar documento{% else %}Nuevo documento{% endif %} — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>{% if documento %}Editar documento{% else %}Nuevo documento{% endif %}</h1>
+    </div>
+    <a href="{{ url_for('documentos.listar') }}" class="btn btn-outline-secondary">Volver</a>
+</div>
+
+<div class="panel form-panel">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Vehículo *</label>
+                <select name="vehiculo_id" class="form-select" required>
+                    <option value="">Seleccione…</option>
+                    {% for v in vehiculos %}
+                    <option value="{{ v.id }}"
+                        {% if (documento and documento.vehiculo_id == v.id) or (not documento and vehiculo_pre == v.id) %}selected{% endif %}>
+                        {{ v.placa }} — {{ v.marca }} {{ v.modelo }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Tipo de documento *</label>
+                <select name="tipo" class="form-select" required>
+                    {% for t in tipos %}
+                    <option value="{{ t }}" {% if documento and documento.tipo == t %}selected{% endif %}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Fecha de expedición *</label>
+                <input type="date" name="fecha_expedicion" class="form-control" required
+                       value="{{ documento.fecha_expedicion.isoformat() if documento else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Fecha de vencimiento *</label>
+                <input type="date" name="fecha_vencimiento" class="form-control" required
+                       value="{{ documento.fecha_vencimiento.isoformat() if documento else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Archivo (PDF / imagen)</label>
+                <input type="file" name="archivo" class="form-control" accept=".pdf,.png,.jpg,.jpeg,.webp">
+                {% if documento and documento.archivo %}
+                <small class="text-muted">Actual: <a href="{{ url_for('documentos.archivo', filename=documento.archivo) }}" target="_blank">{{ documento.archivo }}</a></small>
+                {% endif %}
+            </div>
+            <div class="col-12">
+                <label class="form-label">Observaciones</label>
+                <input name="observaciones" class="form-control" value="{{ documento.observaciones or '' if documento else '' }}">
+            </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            {% if documento %}
+            <button formaction="{{ url_for('documentos.eliminar', documento_id=documento.id) }}"
+                    formmethod="POST" class="btn btn-outline-danger"
+                    onclick="return confirm('¿Eliminar documento?');">
+                Eliminar
+            </button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

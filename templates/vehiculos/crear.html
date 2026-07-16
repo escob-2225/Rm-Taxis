@@ -1,0 +1,54 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Nuevo vehículo — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Nuevo vehículo</h1>
+    </div>
+    <a href="{{ url_for('vehiculos.listar') }}" class="btn btn-outline-secondary">Volver</a>
+</div>
+
+<div class="panel form-panel">
+    <form method="POST">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Placa *</label>
+                <input name="placa" class="form-control" required maxlength="10">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Número interno</label>
+                <input name="numero_interno" class="form-control" maxlength="20">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Estado</label>
+                <select name="estado" class="form-select">
+                    <option>Activo</option>
+                    <option>Inactivo</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Marca *</label>
+                <input name="marca" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Modelo *</label>
+                <input name="modelo" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Año *</label>
+                <input type="number" name="anio" class="form-control" required min="1980" max="2100">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Color</label>
+                <input name="color" class="form-control">
+            </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <a href="{{ url_for('vehiculos.listar') }}" class="btn btn-light">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

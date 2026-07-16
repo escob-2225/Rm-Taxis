@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Rm Taxis">
+  <rect width="200" height="200" rx="28" fill="#111111"/>
+  <!-- Franja ajedrezada -->
+  <g>
+    <rect x="0" y="78" width="25" height="22" fill="#FFD100"/>
+    <rect x="25" y="78" width="25" height="22" fill="#111111"/>
+    <rect x="50" y="78" width="25" height="22" fill="#FFD100"/>
+    <rect x="75" y="78" width="25" height="22" fill="#111111"/>
+    <rect x="100" y="78" width="25" height="22" fill="#FFD100"/>
+    <rect x="125" y="78" width="25" height="22" fill="#111111"/>
+    <rect x="150" y="78" width="25" height="22" fill="#FFD100"/>
+    <rect x="175" y="78" width="25" height="22" fill="#111111"/>
+    <rect x="0" y="100" width="25" height="22" fill="#111111"/>
+    <rect x="25" y="100" width="25" height="22" fill="#FFD100"/>
+    <rect x="50" y="100" width="25" height="22" fill="#111111"/>
+    <rect x="75" y="100" width="25" height="22" fill="#FFD100"/>
+    <rect x="100" y="100" width="25" height="22" fill="#111111"/>
+    <rect x="125" y="100" width="25" height="22" fill="#FFD100"/>
+    <rect x="150" y="100" width="25" height="22" fill="#111111"/>
+    <rect x="175" y="100" width="25" height="22" fill="#FFD100"/>
+  </g>
+  <text x="100" y="58" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="800" fill="#FFD100">RM</text>
+  <text x="100" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="3">TAXIS</text>
+</svg>

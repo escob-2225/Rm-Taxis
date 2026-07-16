@@ -1,0 +1,54 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Editar {{ vehiculo.placa }} — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Editar vehículo {{ vehiculo.placa }}</h1>
+    </div>
+    <a href="{{ url_for('vehiculos.detalle', vehiculo_id=vehiculo.id) }}" class="btn btn-outline-secondary">Volver</a>
+</div>
+
+<div class="panel form-panel">
+    <form method="POST">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Placa *</label>
+                <input name="placa" class="form-control" required value="{{ vehiculo.placa }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Número interno</label>
+                <input name="numero_interno" class="form-control" value="{{ vehiculo.numero_interno or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Estado</label>
+                <select name="estado" class="form-select">
+                    <option {% if vehiculo.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option {% if vehiculo.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Marca *</label>
+                <input name="marca" class="form-control" required value="{{ vehiculo.marca }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Modelo *</label>
+                <input name="modelo" class="form-control" required value="{{ vehiculo.modelo }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Año *</label>
+                <input type="number" name="anio" class="form-control" required value="{{ vehiculo.anio }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Color</label>
+                <input name="color" class="form-control" value="{{ vehiculo.color or '' }}">
+            </div>
+        </div>
+        <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+            <a href="{{ url_for('vehiculos.detalle', vehiculo_id=vehiculo.id) }}" class="btn btn-light">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

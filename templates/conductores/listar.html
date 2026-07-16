@@ -1,0 +1,53 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Conductores — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Conductores</h1>
+        <p class="text-muted mb-0">Registro y asignación a vehículos</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('conductores.asignar') }}" class="btn btn-outline-secondary">Asignar</a>
+        <a href="{{ url_for('conductores.crear') }}" class="btn btn-primary">+ Conductor</a>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cédula</th>
+                    <th>Teléfono</th>
+                    <th>Licencia</th>
+                    <th>Vence licencia</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in conductores %}
+                <tr>
+                    <td><strong>{{ c.nombre }}</strong></td>
+                    <td>{{ c.cedula }}</td>
+                    <td>{{ c.telefono or '—' }}</td>
+                    <td>{{ c.licencia }}</td>
+                    <td>{{ c.licencia_vencimiento.strftime('%d/%m/%Y') }}</td>
+                    <td>
+                        <span class="badge text-bg-{{ 'success' if c.estado == 'Activo' else 'secondary' }}">{{ c.estado }}</span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('conductores.detalle', conductor_id=c.id) }}" class="btn btn-sm btn-outline-primary">Ver</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="text-center text-muted py-4">No hay conductores</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

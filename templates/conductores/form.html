@@ -1,0 +1,54 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}{% if conductor %}Editar conductor{% else %}Nuevo conductor{% endif %} — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>{% if conductor %}Editar conductor{% else %}Nuevo conductor{% endif %}</h1>
+    </div>
+    <a href="{{ url_for('conductores.listar') }}" class="btn btn-outline-secondary">Volver</a>
+</div>
+
+<div class="panel form-panel">
+    <form method="POST">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Nombre *</label>
+                <input name="nombre" class="form-control" required value="{{ conductor.nombre if conductor else '' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Cédula *</label>
+                <input name="cedula" class="form-control" required value="{{ conductor.cedula if conductor else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Teléfono</label>
+                <input name="telefono" class="form-control" value="{{ conductor.telefono if conductor and conductor.telefono else '' }}">
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">Dirección</label>
+                <input name="direccion" class="form-control" value="{{ conductor.direccion if conductor and conductor.direccion else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Licencia de conducción *</label>
+                <input name="licencia" class="form-control" required value="{{ conductor.licencia if conductor else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Vencimiento licencia *</label>
+                <input type="date" name="licencia_vencimiento" class="form-control" required
+                       value="{{ conductor.licencia_vencimiento.isoformat() if conductor else '' }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Estado</label>
+                <select name="estado" class="form-select">
+                    <option {% if not conductor or conductor.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option {% if conductor and conductor.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

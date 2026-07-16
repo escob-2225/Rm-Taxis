@@ -1,0 +1,47 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Historial de asignaciones — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Historial de conductores</h1>
+        <p class="text-muted mb-0">Relación vehículo ↔ conductor a lo largo del tiempo</p>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Vehículo</th>
+                    <th>Conductor</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in asignaciones %}
+                <tr>
+                    <td>{{ a.vehiculo.placa }}</td>
+                    <td>{{ a.conductor.nombre }}</td>
+                    <td>{{ a.fecha_desde.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ a.fecha_hasta.strftime('%d/%m/%Y') if a.fecha_hasta else '—' }}</td>
+                    <td>
+                        {% if a.activa %}
+                        <span class="badge text-bg-success">Actual</span>
+                        {% else %}
+                        <span class="badge text-bg-secondary">Histórico</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="text-center text-muted py-4">Sin historial</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

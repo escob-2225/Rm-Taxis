@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block body_class %}app-body{% endblock %}
+
+{% block contenido %}
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img
+                src="{{ url_for('static', filename='img/logo.svg') }}"
+                alt="Rm Taxis"
+                class="brand-logo"
+            >
+            <div>
+                <strong>Rm Taxis</strong>
+                <small>Gestión de flota</small>
+            </div>
+        </div>
+
+        <div class="taxi-checker taxi-checker-yellow" aria-hidden="true"></div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('auth.dashboard') }}" class="nav-link {% if request.endpoint == 'auth.dashboard' %}active{% endif %}">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+            <a href="{{ url_for('vehiculos.listar') }}" class="nav-link {% if request.blueprint == 'vehiculos' %}active{% endif %}">
+                <i class="bi bi-taxi-front"></i> Vehículos
+            </a>
+            <a href="{{ url_for('documentos.listar') }}" class="nav-link {% if request.blueprint == 'documentos' %}active{% endif %}">
+                <i class="bi bi-file-earmark-text"></i> Documentos
+            </a>
+            <a href="{{ url_for('conductores.listar') }}" class="nav-link {% if request.blueprint == 'conductores' %}active{% endif %}">
+                <i class="bi bi-person-badge"></i> Conductores
+            </a>
+            <a href="{{ url_for('conductores.historial') }}" class="nav-link {% if request.endpoint == 'conductores.historial' %}active{% endif %}">
+                <i class="bi bi-clock-history"></i> Historial
+            </a>
+            <a href="{{ url_for('alertas.configurar') }}" class="nav-link {% if request.blueprint == 'alertas' %}active{% endif %}">
+                <i class="bi bi-bell"></i> Alertas
+            </a>
+            {% if current_user.is_admin %}
+            <a href="{{ url_for('usuarios.listar') }}" class="nav-link {% if request.blueprint == 'usuarios' and request.endpoint != 'usuarios.mi_cuenta' %}active{% endif %}">
+                <i class="bi bi-people"></i> Usuarios
+            </a>
+            {% endif %}
+            <a href="{{ url_for('usuarios.mi_cuenta') }}" class="nav-link {% if request.endpoint == 'usuarios.mi_cuenta' %}active{% endif %}">
+                <i class="bi bi-key"></i> Mi cuenta
+            </a>
+        </nav>
+
+        <div class="taxi-checker" aria-hidden="true"></div>
+
+        <div class="sidebar-footer">
+            <div class="user-chip">{{ current_user.nombre }}</div>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-light w-100">Cerrar sesión</a>
+        </div>
+    </aside>
+
+    <main class="app-main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block app_content %}{% endblock %}
+    </main>
+</div>
+{% endblock %}

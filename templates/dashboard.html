@@ -1,62 +1,111 @@
-{% extends "base.html" %}
+{% extends "layout_app.html" %}
 
-{% block titulo %}Dashboard{% endblock %}
+{% block titulo %}Dashboard — Rm Taxis{% endblock %}
 
-{% block contenido %}
-
-<div class="d-flex">
-
-    <div class="bg-dark text-white p-3"
-         style="width:250px;height:100vh;">
-
-        <h3>Taxi Manager</h3>
-
-        <hr>
-
-        <ul class="nav flex-column">
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    🏠 Dashboard
-                </a>
-            </li>
-
-            <li class="nav-item">
-               <a class="nav-link text-white" href="{{ url_for('vehiculos.listar') }}">
-                   🚕 Vehículos
-               </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    👤 Conductores
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    📄 Documentos
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    📊 Reportes
-                </a>
-            </li>
-
-        </ul>
-
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p class="text-muted mb-0">Resumen de flota, documentos y alertas</p>
     </div>
-
-    <div class="container mt-4">
-
-        <h2>Bienvenido</h2>
-
-        <p>Este será el panel principal.</p>
-
-    </div>
-
 </div>
 
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <span>Vehículos</span>
+            <strong>{{ total_vehiculos }}</strong>
+            <small>{{ activos }} activos</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <span>Conductores</span>
+            <strong>{{ total_conductores }}</strong>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card warn">
+            <span>Próximos a vencer</span>
+            <strong>{{ proximos }}</strong>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card danger">
+            <span>Vencidos</span>
+            <strong>{{ vencidos }}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Documentos en alerta</h2>
+                <a href="{{ url_for('documentos.listar', estado='Próximo a vencer') }}" class="btn btn-sm btn-outline-secondary">Ver todos</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Vehículo</th>
+                            <th>Vence</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in alertas_docs %}
+                        <tr>
+                            <td>{{ d.tipo }}</td>
+                            <td>
+                                <a href="{{ url_for('vehiculos.detalle', vehiculo_id=d.vehiculo_id) }}">
+                                    {{ d.vehiculo.placa }}
+                                </a>
+                            </td>
+                            <td>{{ d.fecha_vencimiento.strftime('%d/%m/%Y') }}</td>
+                            <td>
+                                <span class="badge text-bg-{{ d.estado_badge }}">{{ d.estado }}</span>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">Sin alertas por ahora</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Notificaciones</h2>
+                {% if notificaciones %}
+                <form method="POST" action="{{ url_for('notificaciones.marcar_todas') }}">
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">Marcar leídas</button>
+                </form>
+                {% endif %}
+            </div>
+            <ul class="notif-list">
+                {% for n in notificaciones %}
+                <li>
+                    <div>
+                        <strong>{{ n.titulo }}</strong>
+                        <p>{{ n.mensaje }}</p>
+                    </div>
+                    <form method="POST" action="{{ url_for('notificaciones.marcar_leida', notificacion_id=n.id) }}">
+                        <button class="btn btn-sm btn-light" type="submit">OK</button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="text-muted">No hay notificaciones nuevas</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Alertas — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Configuración de alertas</h1>
+        <p class="text-muted mb-0">Define con cuántos días de anticipación avisar y por qué canales</p>
+    </div>
+    <form method="POST" action="{{ url_for('alertas.procesar') }}">
+        <button class="btn btn-outline-primary" type="submit">Procesar alertas ahora</button>
+    </form>
+</div>
+
+<div class="panel form-panel">
+    <form method="POST" action="{{ url_for('alertas.guardar') }}">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Días antes</th>
+                        <th>Activo</th>
+                        <th>Sistema</th>
+                        <th>Correo</th>
+                        <th>WhatsApp</th>
+                        <th>SMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cfg in configs %}
+                    <tr>
+                        <td><strong>{{ cfg.dias_antes }} días</strong></td>
+                        <td><input type="checkbox" name="cfg_{{ cfg.id }}_activo" {% if cfg.activo %}checked{% endif %}></td>
+                        <td><input type="checkbox" name="cfg_{{ cfg.id }}_sistema" {% if cfg.canal_sistema %}checked{% endif %}></td>
+                        <td><input type="checkbox" name="cfg_{{ cfg.id }}_correo" {% if cfg.canal_correo %}checked{% endif %}></td>
+                        <td><input type="checkbox" name="cfg_{{ cfg.id }}_whatsapp" {% if cfg.canal_whatsapp %}checked{% endif %}></td>
+                        <td><input type="checkbox" name="cfg_{{ cfg.id }}_sms" {% if cfg.canal_sms %}checked{% endif %}></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="text-muted small">
+            WhatsApp y SMS quedan preparados; la integración con proveedor (Twilio u otro) se puede conectar después.
+            El correo requiere configurar <code>MAIL_SERVER</code> en el entorno.
+        </p>
+        <button class="btn btn-primary" type="submit">Guardar configuración</button>
+    </form>
+</div>
+{% endblock %}

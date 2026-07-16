@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Plantilla de servicio systemd para Rm Taxis en Ubuntu.
+# Copiar a: /etc/systemd/system/rmtaxis.service
+
+[Unit]
+Description=Rm Taxis
+After=network.target mysql.service
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/var/www/rmtaxis
+Environment="PATH=/var/www/rmtaxis/venv/bin"
+EnvironmentFile=/var/www/rmtaxis/.env
+ExecStart=/var/www/rmtaxis/venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 wsgi:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

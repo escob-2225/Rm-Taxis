@@ -1,0 +1,53 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Documentos — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Documentos</h1>
+        <p class="text-muted mb-0">Estado calculado automáticamente según la fecha de vencimiento</p>
+    </div>
+    <a href="{{ url_for('documentos.crear') }}" class="btn btn-primary">+ Documento</a>
+</div>
+
+<div class="mb-3 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('documentos.listar') }}" class="btn btn-sm {% if not estado_filtro %}btn-dark{% else %}btn-outline-secondary{% endif %}">Todos</a>
+    <a href="{{ url_for('documentos.listar', estado='Vigente') }}" class="btn btn-sm {% if estado_filtro == 'Vigente' %}btn-success{% else %}btn-outline-secondary{% endif %}">Vigente</a>
+    <a href="{{ url_for('documentos.listar', estado='Próximo a vencer') }}" class="btn btn-sm {% if estado_filtro == 'Próximo a vencer' %}btn-warning{% else %}btn-outline-secondary{% endif %}">Próximo a vencer</a>
+    <a href="{{ url_for('documentos.listar', estado='Vencido') }}" class="btn btn-sm {% if estado_filtro == 'Vencido' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Vencido</a>
+</div>
+
+<div class="panel">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Vehículo</th>
+                    <th>Vence</th>
+                    <th>Días</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in documentos %}
+                <tr>
+                    <td>{{ d.tipo }}</td>
+                    <td>{{ d.vehiculo.placa }}</td>
+                    <td>{{ d.fecha_vencimiento.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ d.dias_restantes }}</td>
+                    <td><span class="badge text-bg-{{ d.estado_badge }}">{{ d.estado }}</span></td>
+                    <td class="text-end">
+                        <a href="{{ url_for('documentos.editar', documento_id=d.id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-center text-muted py-4">No hay documentos</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout_app.html" %}
+
+{% block titulo %}Mi cuenta — Rm Taxis{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <div>
+        <h1>Mi cuenta</h1>
+        <p class="text-muted mb-0">{{ current_user.nombre }} · {{ current_user.correo }} · {{ current_user.rol }}</p>
+    </div>
+</div>
+
+<div class="panel form-panel" style="max-width: 520px;">
+    <h2 class="h5 mb-3">Cambiar contraseña</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Contraseña actual *</label>
+            <input type="password" name="password_actual" class="form-control" required autocomplete="current-password">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nueva contraseña *</label>
+            <input type="password" name="password_nueva" class="form-control" required minlength="6" autocomplete="new-password">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Confirmar nueva contraseña *</label>
+            <input type="password" name="password_nueva2" class="form-control" required minlength="6" autocomplete="new-password">
+        </div>
+        <button class="btn btn-primary" type="submit">Actualizar contraseña</button>
+    </form>
+</div>
+{% endblock %}
